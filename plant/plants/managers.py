@@ -1,7 +1,8 @@
+from datetime import timedelta
+
 from django.db.models import BooleanField, Case, DateTimeField, ExpressionWrapper, F, Value, When
 from django.db.models.functions import Now
 
-from .api.utils import Interval
 from .models import models
 
 
@@ -10,7 +11,7 @@ class PlantQuerySet(models.QuerySet):
     def with_is_watered_information(self):
         queryset = self.annotate(
             next_watering=ExpressionWrapper(
-                F("last_watering") + Interval("interval_watering"),
+                F("last_watering") + timedelta(days=1) * F('interval_watering'),
                 output_field=DateTimeField(),
             ),
             current_time=Now(),
