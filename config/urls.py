@@ -21,6 +21,7 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
     path("users/", include("plant.users.urls", namespace="users")),
+    path('plants/', include("plant.plants.urls"), name="plants"),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
     # ...
