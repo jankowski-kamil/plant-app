@@ -1,6 +1,6 @@
 from django.db import models
 
-from plant.plants.managers import PlantManager
+from plant.plants.managers import PlantQuerySet
 
 
 class Plant(models.Model):
@@ -8,8 +8,7 @@ class Plant(models.Model):
     species = models.CharField(max_length=100)
     interval_watering = models.IntegerField()
     last_watering = models.DateTimeField()
-    object = PlantManager()
+    objects = PlantQuerySet.as_manager()
 
     def __str__(self):
         return self.name
-
