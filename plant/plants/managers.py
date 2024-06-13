@@ -29,3 +29,5 @@ class PlantQuerySet(models.QuerySet):
                 output_field=BooleanField(),
             ),
         )
+
+
