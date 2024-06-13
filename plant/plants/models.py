@@ -15,7 +15,7 @@ class Plant(models.Model):
 
 
 class Watering(models.Model):
-    plant = models.ForeignKey(Plant, related_name="watering", on_delete=models.CASCADE)
+    plant = models.ForeignKey(Plant, related_name="waterings", on_delete=models.CASCADE)
     litres = models.IntegerField()
     watering_date = models.DateField()
 

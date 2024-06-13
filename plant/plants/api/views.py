@@ -8,7 +8,7 @@ from plant.plants.models import Plant, Watering
 class PlantViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
     serializer_class = PlantSerializer
-    queryset = Plant.objects.all()
+    queryset = Plant.objects.prefetch_related("waterings")
 
     def get_queryset(self):
         is_watered = self.request.query_params.get("is_watered")

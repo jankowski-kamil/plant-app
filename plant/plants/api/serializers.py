@@ -11,7 +11,7 @@ class PlantWateringSerializer(serializers.ModelSerializer):
 
 class PlantSerializer(serializers.ModelSerializer):
     is_watered = serializers.BooleanField()
-    watering = PlantWateringSerializer(many=True)
+    waterings = PlantWateringSerializer(many=True)
 
     class Meta:
         model = Plant
@@ -21,11 +21,11 @@ class PlantSerializer(serializers.ModelSerializer):
             "interval_watering",
             "last_watering",
             "is_watered",
-            "watering",
+            "waterings",
         ]
 
     def to_representation(self, data):
         data = super().to_representation(data)
-        if len(data.get("watering")) > 5:
-            data["watering"] = data.get("watering")[-5]
+        if len(data.get("waterings")) > 5:
+            data["waterings"] = data.get("waterings")[-5]
         return data

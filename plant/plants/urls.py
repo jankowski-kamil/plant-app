@@ -6,7 +6,7 @@ app_name = "plants"
 
 router = SimpleRouter()
 router.register("plants", PlantViewSet, basename="plants")
-router.register("watering", WateringViewSet, basename="watering")
+router.register("waterings", WateringViewSet, basename="watering")
 
 
 urlpatterns = router.urls
