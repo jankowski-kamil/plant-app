@@ -10,7 +10,6 @@ class PlantViewSet(viewsets.ModelViewSet):
     serializer_class = PlantSerializer
     queryset = Plant.objects.all()
 
-
     def get_queryset(self):
         is_watered = self.request.query_params.get("is_watered")
         qs = super().get_queryset().with_is_watered_information()
@@ -20,6 +19,7 @@ class PlantViewSet(viewsets.ModelViewSet):
             return qs.filter(is_watered=is_watered)
 
         return qs
+
 
 class WateringViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
