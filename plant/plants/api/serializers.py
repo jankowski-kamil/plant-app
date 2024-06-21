@@ -10,8 +10,8 @@ class PlantWateringSerializer(serializers.ModelSerializer):
 
 
 class PlantSerializer(serializers.ModelSerializer):
-    is_watered = serializers.BooleanField()
-    waterings = PlantWateringSerializer(many=True)
+    is_watered = serializers.BooleanField(read_only=True)
+    waterings = PlantWateringSerializer(many=True, read_only=True)
 
     class Meta:
         model = Plant
