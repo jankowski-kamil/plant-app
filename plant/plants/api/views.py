@@ -25,3 +25,4 @@ class WateringViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
     serializer_class = PlantWateringSerializer
     queryset = Watering.objects.all()
+

@@ -3,7 +3,9 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
+from django_rest_passwordreset.views import ResetPasswordConfirm
 
+from plant.users.api.serializers import PasswordResetConfirmSerializer
 from plant.users.models import User
 
 
@@ -41,3 +43,7 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 
 user_redirect_view = UserRedirectView.as_view()
+
+
+class CustomResetPasswordConfirmView(ResetPasswordConfirm):
+    serializer_class = PasswordResetConfirmSerializer
