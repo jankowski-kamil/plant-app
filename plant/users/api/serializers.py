@@ -1,4 +1,4 @@
-from dj_rest_auth.registration.serializers import RegisterSerializer
+
 from rest_framework import serializers
 
 from plant.users.models import User
@@ -12,3 +12,6 @@ class UserSerializer(serializers.ModelSerializer[User]):
         extra_kwargs = {
             "url": {"view_name": "api:user-detail", "lookup_field": "pk"},
         }
+
+
+
