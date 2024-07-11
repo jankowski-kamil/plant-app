@@ -1,6 +1,7 @@
 from django.db import models
 
 from plant.plants.managers import PlantQuerySet
+from plant.users.models import User
 
 
 class Plant(models.Model):
@@ -9,6 +10,8 @@ class Plant(models.Model):
     interval_watering = models.IntegerField()
     last_watering = models.DateTimeField()
     objects = PlantQuerySet.as_manager()
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owner')
+    staff = models.ManyToManyField(User, related_name='staff', blank=True)
 
     def __str__(self):
         return self.name

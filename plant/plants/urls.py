@@ -9,4 +9,5 @@ router.register("plants", PlantViewSet, basename="plants")
 router.register("waterings", WateringViewSet, basename="watering")
 
 
+
 urlpatterns = router.urls
