@@ -6,8 +6,8 @@ class IsStaffAndCanWatering(BasePermission):
     def has_object_permission(self, request, view, obj):
 
         if request.method in permissions.SAFE_METHODS:
-            return False
+            return True
 
         if request.user in obj.staff:
-            return False
+            return True
 
