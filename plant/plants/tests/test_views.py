@@ -79,3 +79,23 @@ class TestPlantViewSet:
         response = api_client.get(url)
         assert response.data["litres"] == waterings[0].litres
         assert response.status_code == status.HTTP_200_OK
+
+    @pytest.mark.django_db()
+    def test_permission_delete_plant(self, api_client, user):
+        new_user = UserFactory()
+        api_client.force_authenticate(user=user)
+        url = reverse("plants:plants-list")
+        payload = {
+            "name": "New plant",
+            "species": "New description",
+            "interval_watering": 2,
+            "last_watering": timezone.now(),
+        }
+        plant = api_client.post(url, payload)
+        api_client.force_authenticate(user=new_user)
+        url = reverse("plants:plants-detail", kwargs={"pk": plant.data["id"]})
+        url_plants_list = reverse("plants:plants-list")
+        response = api_client.delete(url)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+

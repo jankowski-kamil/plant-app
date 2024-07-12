@@ -34,6 +34,7 @@ class TestUserViewSet:
         assert response.status_code == status.HTTP_201_CREATED
         assert response.data["access"]
 
+    @pytest.mark.django_db()
     def test_login_user(self, api_client, user):
         payload = {
             "email": "test@test.pl",
