@@ -1,14 +1,16 @@
 from rest_framework import viewsets
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 
+from plant.permissions.owner_permissions import IsOwnerOrReadOnly
+from plant.permissions.staff_permisions import IsStaffAndCanWatering
 from plant.plants.api.serializers import PlantSerializer, PlantWateringSerializer
 from plant.plants.models import Plant, Watering
 
 
 class PlantViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
     serializer_class = PlantSerializer
-    queryset = Plant.objects.prefetch_related("waterings")
+    queryset = Plant.objects.prefetch_related("waterings", "owner", "staff")
 
     def get_queryset(self):
         is_watered = self.request.query_params.get("is_watered")
@@ -20,9 +22,11 @@ class PlantViewSet(viewsets.ModelViewSet):
 
         return qs
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
 
 class WateringViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated, IsStaffAndCanWatering]
     serializer_class = PlantWateringSerializer
     queryset = Watering.objects.all()
-

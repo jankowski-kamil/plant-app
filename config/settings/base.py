@@ -83,10 +83,10 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
-    'dj_rest_auth',
-    'dj_rest_auth.registration',
-    'rest_framework_simplejwt',
-    'django_rest_passwordreset'
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
+    "rest_framework_simplejwt",
+    "django_rest_passwordreset",
 ]
 
 SITE_ID = 1
@@ -327,7 +327,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.BasicAuthentication",
         "rest_framework.authentication.TokenAuthentication",
-        'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
@@ -349,15 +349,15 @@ SPECTACULAR_SETTINGS = {
 # ------------------------------------------------------------------------------
 
 REST_AUTH = {
-    'USE_JWT': True,
-    'JWT_AUTH_HTTPONLY': True,
-    'JWT_AUTH_COOKIE': 'my-app-auth',
-    'JWT_AUTH_REFRESH_COOKIE': 'my-refresh-token',
-    'OLD_PASSWORD_FIELD_ENABLED': True,
+    "USE_JWT": True,
+    "JWT_AUTH_HTTPONLY": True,
+    "JWT_AUTH_COOKIE": "my-app-auth",
+    "JWT_AUTH_REFRESH_COOKIE": "my-refresh-token",
+    "OLD_PASSWORD_FIELD_ENABLED": True,
 }
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "ROTATE_REFRESH_TOKENS": True,
 }
-
