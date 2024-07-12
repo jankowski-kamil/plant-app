@@ -48,4 +48,3 @@ user_redirect_view = UserRedirectView.as_view()
 
 class CustomResetPasswordConfirmView(ResetPasswordConfirm):
     serializer_class = PasswordResetConfirmSerializer
-

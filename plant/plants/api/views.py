@@ -7,11 +7,10 @@ from plant.plants.api.serializers import PlantSerializer, PlantWateringSerialize
 from plant.plants.models import Plant, Watering
 
 
-
 class PlantViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
     serializer_class = PlantSerializer
-    queryset = Plant.objects.prefetch_related("waterings", 'owner', 'staff')
+    queryset = Plant.objects.prefetch_related("waterings", "owner", "staff")
 
     def get_queryset(self):
         is_watered = self.request.query_params.get("is_watered")
@@ -24,13 +23,10 @@ class PlantViewSet(viewsets.ModelViewSet):
         return qs
 
     def perform_create(self, serializer):
-        staff_data = self.request.data.get('staff')
-        serializer.save(owner=self.request.user, staff=staff_data)
+        serializer.save(owner=self.request.user)
+
 
 class WateringViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsStaffAndCanWatering]
     serializer_class = PlantWateringSerializer
     queryset = Watering.objects.all()
-
-
-
