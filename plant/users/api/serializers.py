@@ -1,4 +1,3 @@
-
 from rest_framework import serializers
 from django_rest_passwordreset.serializers import PasswordTokenSerializer
 
@@ -14,6 +13,7 @@ class UserSerializer(serializers.ModelSerializer[User]):
             "url": {"view_name": "api:user-detail", "lookup_field": "pk"},
         }
 
+
 class PasswordResetConfirmSerializer(PasswordTokenSerializer):
     token = serializers.CharField()
     password = serializers.CharField(write_only=True)
@@ -21,7 +21,8 @@ class PasswordResetConfirmSerializer(PasswordTokenSerializer):
 
     def validate(self, data):
         if data["password"] != data["password2"]:
-            raise serializers.ValidationError(detail="The two password fields didn't match.")
+            raise serializers.ValidationError(
+                detail="The two password fields didn't match."
+            )
 
         return super().validate(data)
-
