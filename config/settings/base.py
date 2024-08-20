@@ -87,7 +87,19 @@ THIRD_PARTY_APPS = [
     "dj_rest_auth.registration",
     "rest_framework_simplejwt",
     "django_rest_passwordreset",
+    "channels",
 ]
+
+ASGI_APPLICATION = "plant.config.asgi.application"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.pubsub.RedisPubSubChannelLayer",
+        "CONFIG": {
+            "hosts": ["redis://redis:6379"],
+        },
+    },
+}
+
 
 SITE_ID = 1
 
