@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+from plant.notifications.models import Notification
 
 from plant.permissions.owner_permissions import IsOwnerOrReadOnly
 from plant.permissions.staff_permisions import IsStaffAndCanWatering
@@ -30,3 +31,18 @@ class WateringViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsStaffAndCanWatering]
     serializer_class = PlantWateringSerializer
     queryset = Watering.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save()
+        plant_id = serializer.validated_data["plant"].id
+        plant = Plant.objects.get(id=plant_id)
+        owner = plant.owner
+        Notification.objects.create(
+            recipient=owner,
+            text=f"Plant {plant.name} is now watering",
+            created_by=self.request.user,
+        )
+
+
+
+

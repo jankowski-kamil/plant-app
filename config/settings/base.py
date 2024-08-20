@@ -94,6 +94,7 @@ SITE_ID = 1
 LOCAL_APPS = [
     "plant.users",
     "plant.plants",
+    "plant.notifications",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

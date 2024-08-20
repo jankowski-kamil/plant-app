@@ -22,6 +22,7 @@ urlpatterns = [
     # User management
     path("users/", include("plant.users.urls", namespace="users")),
     path("plants/", include("plant.plants.urls"), name="plants"),
+    path("notifications/", include("notifications.urls"), name="notifications"),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
     # ...
