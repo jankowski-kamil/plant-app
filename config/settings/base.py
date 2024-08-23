@@ -90,12 +90,12 @@ THIRD_PARTY_APPS = [
     "channels",
 ]
 
-ASGI_APPLICATION = "plant.config.asgi.application"
+ASGI_APPLICATION = "plant.config.settings.asgi.application"
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.pubsub.RedisPubSubChannelLayer",
         "CONFIG": {
-            "hosts": ["redis://redis:6379"],
+            "hosts": ["redis://redis:6379/0"],
         },
     },
 }

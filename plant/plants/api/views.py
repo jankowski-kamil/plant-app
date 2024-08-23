@@ -34,11 +34,9 @@ class WateringViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save()
-        plant_id = serializer.validated_data["plant"].id
-        plant = Plant.objects.get(id=plant_id)
-        owner = plant.owner
+        plant = serializer.validated_data["plant"]
         Notification.objects.create(
-            recipient=owner,
+            recipient=plant.owner,
             text=f"Plant {plant.name} is now watering",
             created_by=self.request.user,
         )
