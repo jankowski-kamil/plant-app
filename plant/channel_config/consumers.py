@@ -8,9 +8,9 @@ from  plant.notifications.models import Notification
 from channels.layers import get_channel_layer
 
 
-def send_message_via_websocket(user_id: str, message: dict):
+def send_message_via_websocket(user, message: dict):
     channel_layer = get_channel_layer()
-    group_name = f"user_{user_id}"
+    group_name = f"user_{user.id}"
     async_to_sync(channel_layer.group_send)(group_name, message)
 
 

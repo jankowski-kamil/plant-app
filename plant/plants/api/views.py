@@ -1,5 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+
+from plant.channel_config.consumers import send_message_via_websocket
 from plant.notifications.models import Notification
 
 from plant.permissions.owner_permissions import IsOwnerOrReadOnly
@@ -40,6 +42,11 @@ class WateringViewSet(viewsets.ModelViewSet):
             text=f"Plant {plant.name} is now watering",
             created_by=self.request.user,
         )
+        message = {
+            "messages": f"Plant {plant.name} is now watering",
+            "type": "unread_status"
+        }
+        send_message_via_websocket(self.request.user, message)
 
 
 
