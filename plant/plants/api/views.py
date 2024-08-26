@@ -44,10 +44,6 @@ class WateringViewSet(viewsets.ModelViewSet):
         )
         message = {
             "messages": f"Plant {plant.name} is now watering",
-            "type": "unread_status"
+            "type": "unread_watering_notifications",
         }
         send_message_via_websocket(self.request.user, message)
-
-
-
-

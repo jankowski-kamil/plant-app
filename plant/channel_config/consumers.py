@@ -4,7 +4,7 @@ from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from asgiref.sync import async_to_sync
 from plant import notifications
 from channels.db import database_sync_to_async
-from  plant.notifications.models import Notification
+from plant.notifications.models import Notification
 from channels.layers import get_channel_layer
 
 
@@ -15,12 +15,17 @@ def send_message_via_websocket(user, message: dict):
 
 
 def build_message(user):
-    notificationsList = {"message": list(Notification.objects.filter(recipient=user).values('id','text'))}
-    return notificationsList
+    return {
+        "message": list(
+            Notification.objects.filter(recipient=user).values("id", "text")
+        )
+    }
+
 
 @database_sync_to_async
-def getNotifications(user):
+def get_notifications(user):
     return build_message(user)
+
 
 class NotificationsConsumer(AsyncJsonWebsocketConsumer):
 
@@ -34,8 +39,8 @@ class NotificationsConsumer(AsyncJsonWebsocketConsumer):
         await self.channel_layer.group_add(self.room_name, self.channel_name)
         await self.accept()
 
-        message = await getNotifications(user)
-        message["type"] = "unread_status"
+        message = await get_notifications(user)
+        message["type"] = "unread_watering_notifications"
 
         await self.channel_layer.group_send(self.room_name, message)
         return None
@@ -44,13 +49,5 @@ class NotificationsConsumer(AsyncJsonWebsocketConsumer):
         if hasattr(self, "room_name"):
             await self.channel_layer.group_discard(self.room_name, self.channel_name)
 
-    async def alert(self, event):
+    async def unread_watering_notifications(self, event):
         await self.send_json(event)
-
-    async def activity(self, event):
-        await self.send_json(event)
-
-    async def unread_status(self, event):
-        await self.send_json(event)
-
-

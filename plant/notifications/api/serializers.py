@@ -6,4 +6,8 @@ from plant.notifications.models import Notification
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
-        fields = ["recipient", "text", "created_by",]
+        fields = [
+            "recipient",
+            "text",
+            "created_by",
+        ]

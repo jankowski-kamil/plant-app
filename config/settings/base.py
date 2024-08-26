@@ -56,7 +56,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # https://docs.djangoproject.com/en/dev/ref/settings/#root-urlconf
 ROOT_URLCONF = "config.urls"
 # https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
-# WSGI_APPLICATION = "config.wsgi.application"
+
 
 # APPS
 # ------------------------------------------------------------------------------
@@ -89,16 +89,6 @@ THIRD_PARTY_APPS = [
     "django_rest_passwordreset",
     "channels",
 ]
-
-ASGI_APPLICATION = "plant.config.settings.asgi.application"
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.pubsub.RedisPubSubChannelLayer",
-        "CONFIG": {
-            "hosts": ["redis://redis:6379/0"],
-        },
-    },
-}
 
 
 SITE_ID = 1

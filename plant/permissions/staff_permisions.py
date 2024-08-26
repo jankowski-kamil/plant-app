@@ -11,7 +11,6 @@ class IsStaffAndCanWatering(BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        plant = Plant.objects.get(id=request.data["plant"])
-        if request.user in plant.staff.all():
-            return True
-        return False
+        return Plant.objects.filter(
+            id=request.data["plant"], staff=request.user
+        ).exists()

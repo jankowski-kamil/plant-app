@@ -35,7 +35,6 @@ CHANNEL_LAYERS = {
 }
 
 
-
 # EMAIL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-host

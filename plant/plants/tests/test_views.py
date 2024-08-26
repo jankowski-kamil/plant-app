@@ -97,5 +97,3 @@ class TestPlantViewSet:
         url_plants_list = reverse("plants:plants-list")
         response = api_client.delete(url)
         assert response.status_code == status.HTTP_403_FORBIDDEN
-
-

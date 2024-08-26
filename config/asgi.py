@@ -1,4 +1,3 @@
-
 import os
 
 from channels.routing import ProtocolTypeRouter, URLRouter
@@ -10,7 +9,6 @@ django_asgi_app = get_asgi_application()
 
 from plant.channel_config.middlewares import JWTAuthMiddlewareStack
 from plant.channel_config.routing import websocket_urlpatterns
-
 
 
 application = ProtocolTypeRouter(
