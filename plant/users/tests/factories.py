@@ -12,7 +12,6 @@ class UserFactory(DjangoModelFactory):
     name = Faker("name")
     is_staff = True
 
-
     @post_generation
     def password(
         self, create: bool, extracted: Sequence[Any], **kwargs

@@ -14,5 +14,3 @@ class NotificationFactory(DjangoModelFactory):
 
     class Meta:
         model = Notification
-
-
