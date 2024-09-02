@@ -15,24 +15,59 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Plant',
+            name="Plant",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('species', models.CharField(max_length=100)),
-                ('interval_watering', models.IntegerField()),
-                ('last_watering', models.DateTimeField()),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='owner', to=settings.AUTH_USER_MODEL)),
-                ('staff', models.ManyToManyField(blank=True, related_name='staff', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("species", models.CharField(max_length=100)),
+                ("interval_watering", models.IntegerField()),
+                ("last_watering", models.DateTimeField()),
+                (
+                    "owner",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="owner",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "staff",
+                    models.ManyToManyField(
+                        blank=True, related_name="staff", to=settings.AUTH_USER_MODEL
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Watering',
+            name="Watering",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('litres', models.IntegerField()),
-                ('watering_date', models.DateField()),
-                ('plant', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='waterings', to='plants.plant')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("litres", models.IntegerField()),
+                ("watering_date", models.DateField()),
+                (
+                    "plant",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="waterings",
+                        to="plants.plant",
+                    ),
+                ),
             ],
         ),
     ]

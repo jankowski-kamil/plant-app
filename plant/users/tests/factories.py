@@ -10,6 +10,7 @@ from plant.users.models import User
 class UserFactory(DjangoModelFactory):
     email = Faker("email")
     name = Faker("name")
+    is_staff = True
 
     @post_generation
     def password(

@@ -27,3 +27,7 @@ drf-spectacular==0.27.2  # https://github.com/tfranzel/drf-spectacular
 dj-rest-auth==6.0.0  # https://github.com/iMerica/dj-rest-auth
 djangorestframework-simplejwt==5.3.1  # https://github.com/jazzband/djangorestframework-simplejwt
 django-rest-passwordreset==1.4.1  # https://github.com/anexia-it/django-rest-passwordreset
+
+channels[daphne]==4.1.0 #https://github.com/django/channels/tree/main
+channels-redis==4.2.0  # https://github.com/django/channels_redis
+

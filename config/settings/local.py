@@ -24,6 +24,17 @@ CACHES = {
     },
 }
 
+ASGI_APPLICATION = "plant.config.settings.asgi.application"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.pubsub.RedisPubSubChannelLayer",
+        "CONFIG": {
+            "hosts": ["redis://redis:6379/0"],
+        },
+    },
+}
+
+
 # EMAIL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-host

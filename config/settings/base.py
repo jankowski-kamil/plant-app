@@ -56,7 +56,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # https://docs.djangoproject.com/en/dev/ref/settings/#root-urlconf
 ROOT_URLCONF = "config.urls"
 # https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
-WSGI_APPLICATION = "config.wsgi.application"
+
 
 # APPS
 # ------------------------------------------------------------------------------
@@ -87,13 +87,16 @@ THIRD_PARTY_APPS = [
     "dj_rest_auth.registration",
     "rest_framework_simplejwt",
     "django_rest_passwordreset",
+    "channels",
 ]
+
 
 SITE_ID = 1
 
 LOCAL_APPS = [
     "plant.users",
     "plant.plants",
+    "plant.notifications",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

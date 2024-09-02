@@ -79,3 +79,11 @@ services:
     ports:
       - '5555:5555'
     command: /start-flower
+
+  daphne:
+    <<: *django
+    image: plant_local_daphne
+    container_name: plant_local_daphne
+    ports:
+      - '8001:8000'
+    command: daphne -b 0.0.0.0 -p 8000 config.asgi:application
