@@ -88,6 +88,7 @@ THIRD_PARTY_APPS = [
     "rest_framework_simplejwt",
     "django_rest_passwordreset",
     "channels",
+    "django_filters",
 ]
 
 

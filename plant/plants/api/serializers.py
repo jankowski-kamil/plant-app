@@ -4,16 +4,18 @@ from plant.plants.models import Plant, Watering
 from plant.users.models import User
 
 
-class PlantWateringSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Watering
-        fields = ["id", "plant", "litres", "watering_date"]
-
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "email"]
+
+
+class PlantWateringSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Watering
+        fields = ["id", "plant", "litres", "watering_date", "user"]
 
 
 class PlantSerializer(serializers.ModelSerializer):
@@ -57,3 +59,19 @@ class PlantSerializer(serializers.ModelSerializer):
         if len(data.get("waterings")) > 5:
             data["waterings"] = data.get("waterings")[-5]
         return data
+
+
+class TheMostActiveUsersSerializer(serializers.Serializer):
+    user = serializers.IntegerField(read_only=True)
+    total_litres = serializers.IntegerField(read_only=True)
+
+
+class AverageWateringPerMonthSerializer(serializers.Serializer):
+    month = serializers.IntegerField(read_only=True)
+    average_litres = serializers.FloatField(read_only=True)
+
+
+class RankingSerializer(serializers.Serializer):
+    user = serializers.IntegerField(read_only=True)
+    total_litres = serializers.IntegerField(read_only=True)
+    count_waterings = serializers.IntegerField(read_only=True)

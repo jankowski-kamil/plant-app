@@ -21,6 +21,9 @@ class Watering(models.Model):
     plant = models.ForeignKey(Plant, related_name="waterings", on_delete=models.CASCADE)
     litres = models.IntegerField()
     watering_date = models.DateField()
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="waterings_user"
+    )
 
     def __str__(self):
         return f"{self.plant.name} {self.litres} {self.watering_date}"
