@@ -126,6 +126,4 @@ class RankingViewSet(ListModelMixin, GenericViewSet):
             .annotate()
         )
 
-    def list(self, request):
-        obj = self.filter_queryset(self.get_queryset())
-        return Response(list(obj), status=status.HTTP_200_OK)
+
