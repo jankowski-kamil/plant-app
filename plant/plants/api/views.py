@@ -125,5 +125,3 @@ class RankingViewSet(ListModelMixin, GenericViewSet):
             .annotate(count_waterings=Count("id"))
             .annotate()
         )
-
-
