@@ -94,3 +94,14 @@ class TestPlantViewSet:
         url_plants_list = reverse("plants:plants-list")
         response = api_client.delete(url)
         assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    @pytest.mark.django_db()
+    def test_ranking_list(self, api_client, user):
+        api_client.force_authenticate(user=user)
+        WateringFactory.create_batch(size=10)
+        url = reverse("plants:rankings-list")
+        response = api_client.get(url)
+        assert response.status_code == status.HTTP_200_OK
+
+
+
