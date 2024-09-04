@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta, timezone
+
 from rest_framework import serializers
 
 from plant.plants.models import Plant, Watering
@@ -61,6 +63,11 @@ class PlantSerializer(serializers.ModelSerializer):
         return data
 
 
+class StatsParamsSerializer(serializers.Serializer):
+    start_date = serializers.DateField(default=datetime.now() - timedelta(days=30))
+    end_date = serializers.DateField(default=datetime.now())
+
+
 class TheMostActiveUsersSerializer(serializers.Serializer):
     user = serializers.IntegerField(read_only=True)
     total_litres = serializers.IntegerField(read_only=True)
@@ -75,3 +82,11 @@ class RankingSerializer(serializers.Serializer):
     user = serializers.IntegerField(read_only=True)
     total_litres = serializers.IntegerField(read_only=True)
     count_waterings = serializers.IntegerField(read_only=True)
+
+
+class PlantStatsSerializer(serializers.Serializer):
+    active_user = TheMostActiveUsersSerializer(many=True, read_only=True)
+    average_watering_per_month = AverageWateringPerMonthSerializer(
+        many=True, read_only=True
+    )
+    waterings_count = serializers.IntegerField(read_only=True)
