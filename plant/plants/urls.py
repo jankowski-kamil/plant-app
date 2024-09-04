@@ -1,7 +1,6 @@
-from django.urls import path
 from rest_framework.routers import SimpleRouter
 
-from plant.plants.api.views import PlantViewSet, WateringViewSet, RankingViewSet
+from plant.plants.api.views import PlantViewSet, RankingViewSet, WateringViewSet
 
 app_name = "plants"
 

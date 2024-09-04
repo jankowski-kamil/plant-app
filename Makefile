@@ -39,4 +39,3 @@ mypy:
 
 test:
 	$(DOCKER_RUN) pytest
-

@@ -22,7 +22,9 @@ class Watering(models.Model):
     litres = models.IntegerField()
     watering_date = models.DateField()
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="waterings_user"
+        User,
+        on_delete=models.CASCADE,
+        related_name="waterings_user",
     )
 
     def __str__(self):

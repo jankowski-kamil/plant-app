@@ -7,7 +7,9 @@ app_name = "notifications"
 router = SimpleRouter()
 router.register("notifications", NotificationListView, basename="notifications")
 router.register(
-    "user-notifications", NotificationUserListView, basename="user-notifications"
+    "user-notifications",
+    NotificationUserListView,
+    basename="user-notifications",
 )
 
 

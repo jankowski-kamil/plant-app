@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 
 from rest_framework import serializers
 
@@ -26,7 +26,9 @@ class PlantSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)
     staff = UserSerializer(many=True, read_only=True)
     staff_ids = serializers.PrimaryKeyRelatedField(
-        write_only=True, queryset=User.objects.all(), many=True
+        write_only=True,
+        queryset=User.objects.all(),
+        many=True,
     )
 
     class Meta:
@@ -87,6 +89,7 @@ class RankingSerializer(serializers.Serializer):
 class PlantStatsSerializer(serializers.Serializer):
     active_user = TheMostActiveUsersSerializer(many=True, read_only=True)
     average_watering_per_month = AverageWateringPerMonthSerializer(
-        many=True, read_only=True
+        many=True,
+        read_only=True,
     )
     waterings_count = serializers.IntegerField(read_only=True)

@@ -1,31 +1,24 @@
-from drf_spectacular.utils import extend_schema
-from rest_framework import viewsets, status
+from django.db.models import Avg, Count, F, Sum
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.mixins import ListModelMixin
 from rest_framework.permissions import IsAuthenticated
-from django.shortcuts import get_object_or_404
-from django.db.models import Sum, Avg, F, Count
-from datetime import datetime, timedelta
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters
-
+from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from plant.channel_config.consumers import send_message_via_websocket
-from plant.plants.filters import RankingFilters
 from plant.notifications.models import Notification
-from rest_framework.response import Response
 from plant.permissions.owner_permissions import IsOwnerOrReadOnly
 from plant.permissions.staff_permisions import IsStaffAndCanWatering
 from plant.plants.api.serializers import (
     PlantSerializer,
+    PlantStatsSerializer,
     PlantWateringSerializer,
-    TheMostActiveUsersSerializer,
-    AverageWateringPerMonthSerializer,
     RankingSerializer,
     StatsParamsSerializer,
-    PlantStatsSerializer,
 )
+from plant.plants.filters import RankingFilters
 from plant.plants.models import Plant, Watering
 
 
@@ -58,14 +51,14 @@ class PlantViewSet(viewsets.ModelViewSet):
             .annotate(total_litres=Sum("litres"))[:3]
         )
         average_watering_per_month = plant.waterings.values(
-            month=F("watering_date__month")
+            month=F("watering_date__month"),
         ).annotate(average_litres=Avg("litres"))
 
         waterings_count = plant.waterings.filter(
             watering_date__range=(
                 params.validated_data["start_date"],
                 params.validated_data["end_date"],
-            )
+            ),
         ).count()
 
         response_serializer = PlantStatsSerializer(
@@ -73,7 +66,7 @@ class PlantViewSet(viewsets.ModelViewSet):
                 "active_user": the_most_active_users,
                 "average_watering_per_month": average_watering_per_month,
                 "waterings_count": waterings_count,
-            }
+            },
         )
 
         return Response(

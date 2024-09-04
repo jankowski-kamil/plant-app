@@ -1,16 +1,13 @@
 import pytest
 from django.urls import reverse
 from django.utils import timezone
-from rest_framework.test import APITestCase
 from rest_framework import status
-
 
 from plant.plants.tests.factories import PlantFactory, WateringFactory
 from plant.users.tests.factories import UserFactory
 
 
 class TestPlantViewSet:
-
     @pytest.mark.django_db()
     def test_list_plants(self, api_client, user):
         plants = PlantFactory.create_batch(size=5)

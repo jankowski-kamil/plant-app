@@ -10,7 +10,6 @@ django_asgi_app = get_asgi_application()
 from plant.channel_config.middlewares import JWTAuthMiddlewareStack
 from plant.channel_config.routing import websocket_urlpatterns
 
-
 application = ProtocolTypeRouter(
     {
         "http": django_asgi_app,

@@ -1,12 +1,13 @@
 import pytest
 from django.urls import reverse
 from rest_framework import status
-from .factories import NotificationFactory
+
 from plant.notifications.models import Notification
+
+from .factories import NotificationFactory
 
 
 class TestNotificationsViewSet:
-
     @pytest.mark.django_db()
     def test_list_notifications(self, api_client, user):
         notifications = NotificationFactory.create_batch(size=5)
@@ -32,7 +33,7 @@ class TestNotificationsViewSet:
     def test_user_notifications(self, api_client, user):
         Notification.objects.create(
             recipient=user,
-            text=f"Plant TEST is now watering",
+            text="Plant TEST is now watering",
             created_by=user,
         )
         api_client.force_authenticate(user=user)

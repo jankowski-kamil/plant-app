@@ -44,6 +44,7 @@ class TestUserViewSet:
         api_client.post(url_register, payload)
         url_login = reverse("users:login")
         response = api_client.post(
-            url_login, {"email": payload["email"], "password": payload["password1"]}
+            url_login,
+            {"email": payload["email"], "password": payload["password1"]},
         )
         assert response.status_code == status.HTTP_200_OK

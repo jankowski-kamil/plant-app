@@ -1,6 +1,5 @@
-from django.shortcuts import render
 from rest_framework.mixins import ListModelMixin
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
 from plant.notifications.api.serializers import NotificationSerializer
