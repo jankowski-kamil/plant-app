@@ -1,4 +1,5 @@
-from django.db.models import Avg, Count, F, Sum
+from django.core.cache import cache
+from django.db.models import Count, Sum
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action
@@ -13,13 +14,13 @@ from plant.permissions.owner_permissions import IsOwnerOrReadOnly
 from plant.permissions.staff_permisions import IsStaffAndCanWatering
 from plant.plants.api.serializers import (
     PlantSerializer,
-    PlantStatsSerializer,
     PlantWateringSerializer,
     RankingSerializer,
     StatsParamsSerializer,
 )
 from plant.plants.filters import RankingFilters
 from plant.plants.models import Plant, Watering
+from plant.plants.utils import create_stats
 
 
 class PlantViewSet(viewsets.ModelViewSet):
@@ -45,34 +46,15 @@ class PlantViewSet(viewsets.ModelViewSet):
         params = StatsParamsSerializer(data=request.query_params)
         params.is_valid(raise_exception=True)
         plant = self.get_object()
-        the_most_active_users = (
-            plant.waterings.values("user")
-            .order_by("user")
-            .annotate(total_litres=Sum("litres"))[:3]
-        )
-        average_watering_per_month = plant.waterings.values(
-            month=F("watering_date__month"),
-        ).annotate(average_litres=Avg("litres"))
 
-        waterings_count = plant.waterings.filter(
-            watering_date__range=(
-                params.validated_data["start_date"],
-                params.validated_data["end_date"],
-            ),
-        ).count()
+        cached_data = cache.get(f"stats_waterings_{pk}")
 
-        response_serializer = PlantStatsSerializer(
-            {
-                "active_user": the_most_active_users,
-                "average_watering_per_month": average_watering_per_month,
-                "waterings_count": waterings_count,
-            },
-        )
-
-        return Response(
-            response_serializer.data,
-            status=status.HTTP_200_OK,
-        )
+        if cached_data and not request.query_params:
+            return Response(cached_data, status=status.HTTP_200_OK)
+        else:
+            stats = create_stats(params, plant.pk)
+            cache.set(f"stats_waterings_{pk}", stats.data, 10)
+            return Response(stats.data, status=status.HTTP_200_OK)
 
 
 class WateringViewSet(viewsets.ModelViewSet):
@@ -81,7 +63,7 @@ class WateringViewSet(viewsets.ModelViewSet):
     queryset = Watering.objects.all()
 
     def perform_create(self, serializer):
-        serializer.save()
+        serializer.save(user=self.request.user)
         plant = serializer.validated_data["plant"]
         Notification.objects.create(
             recipient=plant.owner,
@@ -93,6 +75,11 @@ class WateringViewSet(viewsets.ModelViewSet):
             "type": "unread_watering_notifications",
         }
         send_message_via_websocket(self.request.user, message)
+
+        params = StatsParamsSerializer(data={})
+        params.is_valid()
+        stats = create_stats(params, plant.pk)
+        cache.set(f"stats_waterings_{plant.pk}", stats.data, 10)
 
 
 class RankingViewSet(ListModelMixin, GenericViewSet):
