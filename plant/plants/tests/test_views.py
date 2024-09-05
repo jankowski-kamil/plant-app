@@ -1,16 +1,13 @@
 import pytest
 from django.urls import reverse
 from django.utils import timezone
-from rest_framework.test import APITestCase
 from rest_framework import status
-
 
 from plant.plants.tests.factories import PlantFactory, WateringFactory
 from plant.users.tests.factories import UserFactory
 
 
 class TestPlantViewSet:
-
     @pytest.mark.django_db()
     def test_list_plants(self, api_client, user):
         plants = PlantFactory.create_batch(size=5)
@@ -97,3 +94,14 @@ class TestPlantViewSet:
         url_plants_list = reverse("plants:plants-list")
         response = api_client.delete(url)
         assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    @pytest.mark.django_db()
+    def test_ranking_list(self, api_client, user):
+        api_client.force_authenticate(user=user)
+        WateringFactory.create_batch(size=10)
+        url = reverse("plants:rankings-list")
+        response = api_client.get(url)
+        assert response.status_code == status.HTTP_200_OK
+
+
+

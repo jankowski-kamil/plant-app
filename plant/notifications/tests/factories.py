@@ -1,6 +1,6 @@
-from django.utils import timezone
 from factory import Faker, SubFactory
 from factory.django import DjangoModelFactory
+
 from plant.notifications.models import Notification
 from plant.users.tests.factories import UserFactory
 

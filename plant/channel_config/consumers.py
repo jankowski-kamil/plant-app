@@ -1,11 +1,9 @@
-import json
-
-from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from asgiref.sync import async_to_sync
-from plant import notifications
 from channels.db import database_sync_to_async
-from plant.notifications.models import Notification
+from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from channels.layers import get_channel_layer
+
+from plant.notifications.models import Notification
 
 
 def send_message_via_websocket(user, message: dict):
@@ -17,8 +15,8 @@ def send_message_via_websocket(user, message: dict):
 def build_message(user):
     return {
         "message": list(
-            Notification.objects.filter(recipient=user).values("id", "text")
-        )
+            Notification.objects.filter(recipient=user).values("id", "text"),
+        ),
     }
 
 
@@ -28,7 +26,6 @@ def get_notifications(user):
 
 
 class NotificationsConsumer(AsyncJsonWebsocketConsumer):
-
     async def websocket_connect(self, message):
         user = self.scope["user"]
 

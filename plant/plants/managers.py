@@ -25,8 +25,9 @@ class PlantQuerySet(models.QuerySet):
         ).annotate(
             is_watered=Case(
                 When(
-                    current_time__lt=F("next_watering"), then=Value(True)
-                ),  # noqa: FBT003
+                    current_time__lt=F("next_watering"),
+                    then=Value(True),
+                ),
                 default=Value(False),  # noqa: FBT003
                 output_field=BooleanField(),
             ),

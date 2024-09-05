@@ -40,3 +40,5 @@ django-rest-passwordreset==1.4.1  # https://github.com/anexia-it/django-rest-pas
 
 channels[daphne]==4.1.0 #https://github.com/django/channels/tree/main
 channels-redis==4.2.0  # https://github.com/django/channels_redis
+
+django-filter==24.2  # https://github.com/carltongibson/django-filter/

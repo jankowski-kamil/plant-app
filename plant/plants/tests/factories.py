@@ -21,6 +21,7 @@ class WateringFactory(DjangoModelFactory):
     litres = Faker("random_int")
     watering_date = timezone.now()
     plant = SubFactory(PlantFactory)
+    user = SubFactory(UserFactory)
 
     class Meta:
         model = Watering

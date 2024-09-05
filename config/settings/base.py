@@ -1,8 +1,8 @@
 # ruff: noqa: ERA001, E501
 """Base settings to build other settings files upon."""
 
-from pathlib import Path
 from datetime import timedelta
+from pathlib import Path
 
 import environ
 
@@ -88,6 +88,7 @@ THIRD_PARTY_APPS = [
     "rest_framework_simplejwt",
     "django_rest_passwordreset",
     "channels",
+    "django_filters",
 ]
 
 

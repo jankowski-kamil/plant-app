@@ -1,5 +1,4 @@
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext as _
 
 
 class PasswordValidator:
@@ -26,29 +25,21 @@ class PasswordValidator:
         symbols = [char for char in password if char in self.symbols]
         if len(password) < self.min_length:
             raise ValidationError(
-                "Your password is too short. Min length is {}".format(self.min_length)
+                f"Your password is too short. Min length is {self.min_length}",
             )
         if len(capitals) < self.number_of_capitals:
             raise ValidationError(
-                "Your password is too short. Number of capitals is {}".format(
-                    self.number_of_capitals
-                )
+                f"Your password is too short. Number of capitals is {self.number_of_capitals}",
             )
         if len(lower) < self.number_of_lowercase:
             raise ValidationError(
-                "Your password is too short. Number of lowercase is {}".format(
-                    self.number_of_lowercase
-                )
+                f"Your password is too short. Number of lowercase is {self.number_of_lowercase}",
             )
         if len(numbers) < self.numbers:
             raise ValidationError(
-                "Your password is too short. Number of numbers is {}".format(
-                    self.numbers
-                )
+                f"Your password is too short. Number of numbers is {self.numbers}",
             )
         if len(symbols) < self.number_of_symbols:
             raise ValidationError(
-                "Your password is too short. Number of symbols is {}".format(
-                    self.number_of_symbols
-                )
+                f"Your password is too short. Number of symbols is {self.number_of_symbols}",
             )

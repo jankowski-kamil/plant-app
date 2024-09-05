@@ -1,5 +1,5 @@
-from rest_framework import serializers
 from django_rest_passwordreset.serializers import PasswordTokenSerializer
+from rest_framework import serializers
 
 from plant.users.models import User
 
@@ -22,7 +22,7 @@ class PasswordResetConfirmSerializer(PasswordTokenSerializer):
     def validate(self, data):
         if data["password"] != data["password2"]:
             raise serializers.ValidationError(
-                detail="The two password fields didn't match."
+                detail="The two password fields didn't match.",
             )
 
         return super().validate(data)

@@ -1,13 +1,13 @@
-from django.urls import path, include
 from dj_rest_auth.views import LoginView, LogoutView, PasswordChangeView
-from rest_framework_simplejwt.views import TokenRefreshView
+from django.urls import include, path
 from django_rest_passwordreset.views import ResetPasswordRequestToken
+from rest_framework_simplejwt.views import TokenRefreshView
 
 from .views import (
+    CustomResetPasswordConfirmView,
     user_detail_view,
     user_redirect_view,
     user_update_view,
-    CustomResetPasswordConfirmView,
 )
 
 app_name = "users"
