@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from django.core.cache import cache
 from django.db.models import Count, Sum
 from django_filters.rest_framework import DjangoFilterBackend
@@ -51,10 +53,16 @@ class PlantViewSet(viewsets.ModelViewSet):
 
         if cached_data and not request.query_params:
             return Response(cached_data, status=status.HTTP_200_OK)
-        else:
-            stats = create_stats(params, plant.pk)
-            cache.set(f"stats_waterings_{pk}", stats.data, 10)
-            return Response(stats.data, status=status.HTTP_200_OK)
+
+        stats = create_stats(
+            {
+                "start_date": params.validated_data["start_date"],
+                "end_date": params.validated_data["end_date"],
+            },
+            plant.pk,
+        )
+        cache.set(f"stats_waterings_{pk}", stats.data)
+        return Response(stats.data, status=status.HTTP_200_OK)
 
 
 class WateringViewSet(viewsets.ModelViewSet):
@@ -76,10 +84,14 @@ class WateringViewSet(viewsets.ModelViewSet):
         }
         send_message_via_websocket(self.request.user, message)
 
-        params = StatsParamsSerializer(data={})
-        params.is_valid()
-        stats = create_stats(params, plant.pk)
-        cache.set(f"stats_waterings_{plant.pk}", stats.data, 10)
+        stats = create_stats(
+            {
+                "start_date": datetime.now() - timedelta(days=30),
+                "end_date": datetime.now(),
+            },
+            plant.pk,
+        )
+        cache.set(f"stats_waterings_{plant.pk}", stats.data)
 
 
 class RankingViewSet(ListModelMixin, GenericViewSet):

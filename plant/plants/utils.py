@@ -3,9 +3,10 @@ from django.shortcuts import get_object_or_404
 
 from plant.plants.api.serializers import PlantStatsSerializer
 from plant.plants.models import Plant
+from plant.plants.types import ParamsDateRange
 
 
-def create_stats(params, pk):
+def create_stats(params: ParamsDateRange, pk):
     plant = get_object_or_404(Plant, pk=pk)
     the_most_active_users = (
         plant.waterings.values("user")
@@ -18,8 +19,8 @@ def create_stats(params, pk):
 
     waterings_count = plant.waterings.filter(
         watering_date__range=(
-            params.validated_data["start_date"],
-            params.validated_data["end_date"],
+            params["start_date"],
+            params["end_date"],
         ),
     ).count()
 
