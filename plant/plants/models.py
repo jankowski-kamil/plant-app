@@ -20,7 +20,10 @@ class Plant(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owner")
     staff = models.ManyToManyField(User, related_name="staff", blank=True)
     family = models.ForeignKey(
-        PlantFamily, related_name="family", on_delete=models.CASCADE, blank=True
+        PlantFamily,
+        related_name="family",
+        on_delete=models.CASCADE,
+        blank=True,
     )
 
     def __str__(self):

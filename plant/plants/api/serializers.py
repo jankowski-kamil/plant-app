@@ -28,9 +28,9 @@ class PlantFamilySerializer(serializers.ModelSerializer):
 
 class PlantSerializer(serializers.ModelSerializer):
     is_watered = serializers.BooleanField(read_only=True)
-    family_id = serializers.PrimaryKeyRelatedField(write_only=True,
-        queryset=PlantFamily.objects.all(),
-        many=False,)
+    family_id = serializers.PrimaryKeyRelatedField(
+        write_only=True, queryset=PlantFamily.objects.all(), many=False
+    )
     family = PlantFamilySerializer(read_only=True)
     waterings = PlantWateringSerializer(many=True, read_only=True)
     owner = UserSerializer(read_only=True)
@@ -55,7 +55,7 @@ class PlantSerializer(serializers.ModelSerializer):
             "staff",
             "staff_ids",
             "family_id",
-            "family"
+            "family",
         ]
 
     def create(self, validated_data):

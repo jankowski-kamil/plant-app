@@ -3,7 +3,11 @@ from django.urls import reverse
 from django.utils import timezone
 from rest_framework import status
 
-from plant.plants.tests.factories import PlantFactory, WateringFactory, PlantFamilyFactory
+from plant.plants.tests.factories import (
+    PlantFactory,
+    PlantFamilyFactory,
+    WateringFactory,
+)
 from plant.users.tests.factories import UserFactory
 
 
@@ -37,7 +41,7 @@ class TestPlantViewSet:
             "species": "New description",
             "interval_watering": 2,
             "last_watering": timezone.now(),
-            "family_id": families[0].pk
+            "family_id": families[0].pk,
         }
         plant = api_client.post(url, payload)
         url = reverse("plants:plants-detail", kwargs={"pk": plant.data["id"]})
@@ -48,7 +52,6 @@ class TestPlantViewSet:
         assert len(plants_list.data) == 5
 
     @pytest.mark.django_db()
-
     def test_add_plant(self, api_client, user):
         families = PlantFamilyFactory.create_batch(size=5)
         api_client.force_authenticate(user=user)
@@ -58,7 +61,7 @@ class TestPlantViewSet:
             "species": "New description",
             "interval_watering": 2,
             "last_watering": timezone.now(),
-            "family_id": families[0].id
+            "family_id": families[0].id,
         }
         response = api_client.post(url, payload)
         assert response.status_code == status.HTTP_201_CREATED
@@ -93,7 +96,7 @@ class TestPlantViewSet:
             "species": "New description",
             "interval_watering": 2,
             "last_watering": timezone.now(),
-            "family_id":  families[0].id
+            "family_id": families[0].id,
         }
         plant = api_client.post(url, payload)
         api_client.force_authenticate(user=new_user)

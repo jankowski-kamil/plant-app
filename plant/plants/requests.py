@@ -5,7 +5,8 @@ import requests
 def fetch_plant_families():
     env = environ.Env()
     response = requests.get(
-        f"https://trefle.io/api/v1/families?token={env("API_PLANT")}", timeout=15
+        f"https://trefle.io/api/v1/families?token={env("API_PLANT")}",
+        timeout=15,
     )
 
     if response.status_code != 200:
