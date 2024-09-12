@@ -2,9 +2,15 @@ from django.utils import timezone
 from factory import Faker, SubFactory
 from factory.django import DjangoModelFactory
 
-from plant.plants.models import Plant, Watering
+from plant.plants.models import Plant, Watering, PlantFamily
 from plant.users.tests.factories import UserFactory
 
+class PlantFamilyFactory(DjangoModelFactory):
+
+    name = Faker('word')
+
+    class Meta:
+        model = PlantFamily
 
 class PlantFactory(DjangoModelFactory):
     name = Faker("word")
@@ -12,6 +18,7 @@ class PlantFactory(DjangoModelFactory):
     interval_watering = 3
     last_watering = timezone.now()
     owner = SubFactory(UserFactory)
+    family = SubFactory(PlantFamilyFactory)
 
     class Meta:
         model = Plant

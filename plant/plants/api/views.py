@@ -29,7 +29,7 @@ from plant.plants.utils import create_stats
 class PlantViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
     serializer_class = PlantSerializer
-    queryset = Plant.objects.prefetch_related("waterings", "owner", "staff")
+    queryset = Plant.objects.prefetch_related("waterings", "owner", "staff", "family")
 
     def get_queryset(self):
         is_watered = self.request.query_params.get("is_watered")
