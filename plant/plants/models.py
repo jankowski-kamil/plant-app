@@ -23,7 +23,6 @@ class Plant(models.Model):
         PlantFamily,
         related_name="family",
         on_delete=models.CASCADE,
-        blank=True,
     )
 
     def __str__(self):

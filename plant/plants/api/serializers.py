@@ -29,7 +29,8 @@ class PlantFamilySerializer(serializers.ModelSerializer):
 class PlantSerializer(serializers.ModelSerializer):
     is_watered = serializers.BooleanField(read_only=True)
     family_id = serializers.PrimaryKeyRelatedField(
-        write_only=True, queryset=PlantFamily.objects.all(), many=False
+        write_only=True,
+        queryset=PlantFamily.objects.all(),
     )
     family = PlantFamilySerializer(read_only=True)
     waterings = PlantWateringSerializer(many=True, read_only=True)
@@ -59,19 +60,15 @@ class PlantSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
-        staff = validated_data.pop("staff_ids")
-        family = validated_data.pop("family_id")
         instance = super().create(validated_data)
-        instance.family = family
-        instance.staff.set(staff)
+        validated_data["family"] = validated_data.pop("family_id")
+        validated_data["family"] = validated_data.pop("staff_ids")
         return instance
 
     def update(self, instance, validated_data):
-        staff = validated_data.pop("staff_ids")
-        family = validated_data.pop("family_id")
         instance = super().update(instance, validated_data)
-        instance.staff.set(staff)
-        instance.family = family
+        validated_data["family"] = validated_data.pop("family_id")
+        validated_data["family"] = validated_data.pop("staff_ids")
         return instance
 
     def to_representation(self, data):

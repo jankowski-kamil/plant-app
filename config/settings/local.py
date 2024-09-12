@@ -53,3 +53,4 @@ INSTALLED_APPS += ["django_extensions"]
 CELERY_TASK_EAGER_PROPAGATES = True
 # Your stuff...
 # ------------------------------------------------------------------------------
+API_PLANT_TOKEN = "sjyQeZT5eRLAHLTT4bdtqiMDL9vY4TK48NYMIhLIj3A"
