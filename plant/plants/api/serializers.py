@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 from rest_framework import serializers
 
-from plant.plants.models import Plant, Watering
+from plant.plants.models import Plant, PlantFamily, Watering
 from plant.users.models import User
 
 
@@ -20,8 +20,15 @@ class PlantWateringSerializer(serializers.ModelSerializer):
         fields = ["id", "plant", "litres", "watering_date", "user"]
 
 
+class PlantFamilySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlantFamily
+        fields = ["id", "name"]
+
+
 class PlantSerializer(serializers.ModelSerializer):
     is_watered = serializers.BooleanField(read_only=True)
+    family = PlantFamilySerializer(read_only=True)
     waterings = PlantWateringSerializer(many=True, read_only=True)
     owner = UserSerializer(read_only=True)
     staff = UserSerializer(many=True, read_only=True)
@@ -44,6 +51,7 @@ class PlantSerializer(serializers.ModelSerializer):
             "owner",
             "staff",
             "staff_ids",
+            "family",
         ]
 
     def create(self, validated_data):

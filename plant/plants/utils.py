@@ -4,8 +4,8 @@ from django.shortcuts import get_object_or_404
 from plant.plants.api.serializers import PlantStatsSerializer
 from plant.plants.models import Plant
 from plant.plants.types import ParamsDateRange
-import requests
-import environ
+
+
 def create_stats(params: ParamsDateRange, pk):
     plant = get_object_or_404(Plant, pk=pk)
     the_most_active_users = (
@@ -33,15 +33,3 @@ def create_stats(params: ParamsDateRange, pk):
     )
 
     return response_serializer
-
-
-def fetch_plant_family():
-    env = environ.Env()
-    response = requests.get(f"https://trefle.io/api/v1/families?token=${env("API_PLANT")}", timeout=15)
-
-    if response.status_code != 200:
-        raise Exception(response.json())
-
-    plant_families = response.json()['data']
-
-    return [family['name'] for family in plant_families]
