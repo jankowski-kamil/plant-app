@@ -60,15 +60,15 @@ class PlantSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
-        instance = super().create(validated_data)
         validated_data["family"] = validated_data.pop("family_id")
-        validated_data["family"] = validated_data.pop("staff_ids")
+        validated_data["staff"] = validated_data.pop("staff_ids")
+        instance = super().create(validated_data)
         return instance
 
     def update(self, instance, validated_data):
-        instance = super().update(instance, validated_data)
         validated_data["family"] = validated_data.pop("family_id")
-        validated_data["family"] = validated_data.pop("staff_ids")
+        validated_data["staff"] = validated_data.pop("staff_ids")
+        instance = super().update(instance, validated_data)
         return instance
 
     def to_representation(self, data):
