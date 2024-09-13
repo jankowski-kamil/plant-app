@@ -15,20 +15,21 @@ from plant.notifications.models import Notification
 from plant.permissions.owner_permissions import IsOwnerOrReadOnly
 from plant.permissions.staff_permisions import IsStaffAndCanWatering
 from plant.plants.api.serializers import (
+    PlantFamilySerializer,
     PlantSerializer,
     PlantWateringSerializer,
     RankingSerializer,
     StatsParamsSerializer,
 )
 from plant.plants.filters import RankingFilters
-from plant.plants.models import Plant, Watering
+from plant.plants.models import Plant, PlantFamily, Watering
 from plant.plants.utils import create_stats
 
 
 class PlantViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
     serializer_class = PlantSerializer
-    queryset = Plant.objects.prefetch_related("waterings", "owner", "staff")
+    queryset = Plant.objects.prefetch_related("waterings", "owner", "staff", "family")
 
     def get_queryset(self):
         is_watered = self.request.query_params.get("is_watered")
@@ -111,3 +112,9 @@ class RankingViewSet(ListModelMixin, GenericViewSet):
         .annotate(count_waterings=Count("id"))
         .annotate()
     )
+
+
+class PlantFamilyViewSet(ListModelMixin, GenericViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = PlantFamilySerializer
+    queryset = PlantFamily.objects.all()

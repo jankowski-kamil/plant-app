@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 from rest_framework import serializers
 
-from plant.plants.models import Plant, Watering
+from plant.plants.models import Plant, PlantFamily, Watering
 from plant.users.models import User
 
 
@@ -20,8 +20,19 @@ class PlantWateringSerializer(serializers.ModelSerializer):
         fields = ["id", "plant", "litres", "watering_date", "user"]
 
 
+class PlantFamilySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlantFamily
+        fields = ["id", "name"]
+
+
 class PlantSerializer(serializers.ModelSerializer):
     is_watered = serializers.BooleanField(read_only=True)
+    family_id = serializers.PrimaryKeyRelatedField(
+        write_only=True,
+        queryset=PlantFamily.objects.all(),
+    )
+    family = PlantFamilySerializer(read_only=True)
     waterings = PlantWateringSerializer(many=True, read_only=True)
     owner = UserSerializer(read_only=True)
     staff = UserSerializer(many=True, read_only=True)
@@ -44,18 +55,20 @@ class PlantSerializer(serializers.ModelSerializer):
             "owner",
             "staff",
             "staff_ids",
+            "family_id",
+            "family",
         ]
 
     def create(self, validated_data):
-        staff = validated_data.pop("staff_ids")
+        validated_data["family"] = validated_data.pop("family_id")
+        validated_data["staff"] = validated_data.pop("staff_ids")
         instance = super().create(validated_data)
-        instance.staff.set(staff)
         return instance
 
     def update(self, instance, validated_data):
-        staff = validated_data.pop("staff_ids")
+        validated_data["family"] = validated_data.pop("family_id")
+        validated_data["staff"] = validated_data.pop("staff_ids")
         instance = super().update(instance, validated_data)
-        instance.staff.set(staff)
         return instance
 
     def to_representation(self, data):
